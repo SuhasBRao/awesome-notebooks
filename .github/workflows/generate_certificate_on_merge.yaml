@@ -22,14 +22,14 @@ jobs:
         env: 
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.url }}
-          
-      - run: "pip install PIL"
-      - run: "pip install requests"
-      - run: "pip install io"
-      - run: "pip install bs4"
-      - run: |
+      
+      - name: Execute script  
+        run: |
             echo "Store: $pr_name"
-            
+            pip install requests
+            pip install io
+            pip install PIL
+            pip install bs4
             python3 generate_certificate.py
 
   comment_pr:
