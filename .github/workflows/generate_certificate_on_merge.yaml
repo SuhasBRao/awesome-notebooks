@@ -25,6 +25,10 @@ jobs:
           org_profile_url: ${{ github.event.repository.url }}
       
         run: |
+            pip install PIL
+            pip install requests
+            pip install bs4
+            pip instal io
             echo "Store: $pr_name"
             python3 generate_certificate.py
 
