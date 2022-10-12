@@ -23,13 +23,11 @@ jobs:
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.url }}
           
-    
       - run: "pip install PIL"
       - run: "pip install requests"
       - run: "pip install io"
       - run: "pip install bs4"
-      - name: Execute script
-        run: |
+      - run: |
             echo "Store: $pr_name"
             
             python3 generate_certificate.py
