@@ -26,10 +26,6 @@ jobs:
       - name: Execute script  
         run: |
             echo "Store: $pr_name"
-            pip install requests
-            pip install io
-            pip install PIL
-            pip install bs4
             python3 generate_certificate.py
 
   comment_pr:
