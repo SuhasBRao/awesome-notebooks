@@ -23,7 +23,6 @@ jobs:
       - uses: actions/checkout@v1
       - run: mkdir -p output/
       - run: |
-      
       echo "Thank you for your contribution @$contritbutor_name, your PR has been merged into the master branch of awesome-notebook.
       Here is the contribution certificate you can share on social media so everybody knows how awesome you are call_me_handearth_americas.
       Spread the #opensource love green_heart" > output/results.txt
