@@ -28,7 +28,6 @@ jobs:
             pip install bs4
             pip install requests
             pip install pillow
-            pip install io
 
             echo "Store: $pr_name"
             python3 generate_certificate.py
