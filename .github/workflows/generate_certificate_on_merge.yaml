@@ -18,15 +18,12 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.8
-        
-      - name: Execute Test Script
+      - name: Get required variables
         env: 
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.url }}
-          # pr_name: ${{ github.event.pull_request.title }}
-          # pr_name: ${{ github.event.pull_request.title }}
-          # pr_name: ${{ github.event.pull_request.title }}
-      - run: "pip install PIL==2.0.1"
+      - name: Execute Test Script
+      - run: "pip install PIL"
       - run: "pip install requests"
       - run: "pip install io"
       - run: "pip install bs4"
