@@ -23,10 +23,7 @@ jobs:
         env: 
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.url }}
-          # pr_name: ${{ github.event.pull_request.title }}
-          # pr_name: ${{ github.event.pull_request.title }}
-          # pr_name: ${{ github.event.pull_request.title }}
-      - run: "pip install PIL==2.0.1"
+      - run: "pip install PIL"
       - run: "pip install requests"
       - run: "pip install io"
       - run: "pip install bs4"
