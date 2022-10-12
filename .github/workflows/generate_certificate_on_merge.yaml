@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.8
+
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
@@ -28,6 +29,7 @@ jobs:
             pip install requests
             pip install PIL
             pip install io
+
             echo "Store: $pr_name"
             python3 generate_certificate.py
 
