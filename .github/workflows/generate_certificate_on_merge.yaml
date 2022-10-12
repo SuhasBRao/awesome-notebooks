@@ -30,6 +30,7 @@ jobs:
             pip install pillow
 
             echo "Store: $pr_name"
+            echo "Org URL: $org_profile_url"
             python3 generate_certificate.py
 
   comment_pr:
