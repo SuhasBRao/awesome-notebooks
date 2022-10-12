@@ -22,7 +22,7 @@ jobs:
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
-          org_profile_url: ${{ github.event.repository.url }}
+          org_profile_url: ${{ github.event.repository.html_url }}
         
         run: |
             pip install bs4
