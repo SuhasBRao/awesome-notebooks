@@ -26,7 +26,11 @@ jobs:
           # pr_name: ${{ github.event.pull_request.title }}
           # pr_name: ${{ github.event.pull_request.title }}
           # pr_name: ${{ github.event.pull_request.title }}
-        run: |
+      - run: "pip install PIL==2.0.1"
+      - run: "pip install requests"
+      - run: "pip install io"
+      - run: "pip install bs4"
+      - run: |
             echo "Store: $pr_name"
             
             python3 generate_certificate.py
