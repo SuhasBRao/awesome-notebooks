@@ -7,15 +7,9 @@ on:
       - master
 
 jobs:
-  if_pr_merged_to_master:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-    - run: |
-        echo The PR was merged
-
   comment_pr:
     name: PR comment
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -23,7 +17,7 @@ jobs:
       - run: |
             echo "Thank you for your contribution @ ${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are call_me_handearth_americas.
-            Spread the #opensource love green_heart" > output/results.txt
+            Spread the #opensource love green_heart" > output/results.md
       - uses: actions/upload-artifact@v1
         with:
           name: results
@@ -36,4 +30,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: results/results.txt
+          path: results/results.md
