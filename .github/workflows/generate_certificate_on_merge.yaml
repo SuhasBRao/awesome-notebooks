@@ -22,6 +22,10 @@ jobs:
       - name: Execute Test Script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
+          org_profile_url: ${{ github.event.repository.url }}
+          # pr_name: ${{ github.event.pull_request.title }}
+          # pr_name: ${{ github.event.pull_request.title }}
+          # pr_name: ${{ github.event.pull_request.title }}
         run: |
             echo "Store: $pr_name"
             
