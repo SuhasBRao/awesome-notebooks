@@ -6,7 +6,7 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 
 
-org_profile_url = os.environ('org_profile_url')
+org_profile_url = os.environ['org_profile_url']
 repo_name = "awesome-notebooks"
 date_of_contribution = "04/10/2022"
 contributor_name = "Suhas B"
