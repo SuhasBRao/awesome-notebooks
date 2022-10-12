@@ -1,12 +1,36 @@
+name: Generate Certificate when PR merged
 on:
   pull_request:
     types:
       - closed
+    branches:
+      - master
 
 jobs:
-  if_merged:
+  if_pr_merged_to_master:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - run: |
         echo The PR was merged
+
+  PR comment:
+    name: PR comment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: mkdir -p output/
+      - run: echo "This is fancy a comment" > output/results.txt
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results
+          path: output
+      - uses: actions/download-artifact@v1
+        with:
+          name: results
+      - name: comment PR
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: results/results.txt
