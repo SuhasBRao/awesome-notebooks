@@ -18,12 +18,12 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.8
+          
       - name: Get required variables
         env: 
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.url }}
       
-      - name: Execute script  
         run: |
             echo "Store: $pr_name"
             python3 generate_certificate.py
