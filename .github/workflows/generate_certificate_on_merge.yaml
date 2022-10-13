@@ -79,7 +79,7 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](https://kinsta.com/wp-content/uploads/2018/08/anchor-links-wordpress.png) " > output/results.md
+            ![Certificate](certificate.png) " > output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
