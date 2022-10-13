@@ -28,7 +28,7 @@ jobs:
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{github.event.pull_request.head.user.avatar_url}}
-          contents_url : ${{github.event.pull_request.contents_url}}
+          contents_url : ${{github.event.pull_request.head.contents_url}}
         run: |
             pip install bs4
             pip install requests
