@@ -70,16 +70,10 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: create file
-        run: |
-          echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
-            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
-            Spread the #opensource love  :green_heart:
-          ![Certificate](.github/certificate.png) " >> report.md
       - name: Comment PR
         uses: NejcZdovc/comment-pr@v1
         with:
-          file: "report.md"
+          file: "comment.md"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
