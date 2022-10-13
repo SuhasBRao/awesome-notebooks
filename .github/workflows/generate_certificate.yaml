@@ -65,6 +65,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+
   comment_pr:
     needs: generate_certificate
     name: PR comment
@@ -77,4 +78,4 @@ jobs:
         uses: NejcZdovc/comment-pr@v1
         with:
           file: "comment.md"
-    
+
