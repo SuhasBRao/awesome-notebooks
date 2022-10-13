@@ -66,9 +66,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   comment_pr:
-    - needs: generate_certificate
-      uses: NejcZdovc/comment-pr@v1
-      with:
-        file: "comment.md"
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    needs: generate_certificate
+    name: PR comment
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment PR
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: NejcZdovc/comment-pr@v1
+        with:
+          file: "comment.md"
+    
