@@ -28,6 +28,7 @@ jobs:
           user_name: ${{ github.event.pull_request.user.login }}
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
+          logo_url: ${{github.event.pull_request.repo.owner.avatar_url}}
         run: |
             pip install bs4
             pip install requests
@@ -40,6 +41,8 @@ jobs:
             echo "user_name: $user_name"
             echo "issue_title: $issue_title"
             echo "date: $date"
+            echo "logo_url: $logo_url"
+            
             echo "##########################"
             python3 generate_certificate.py
 
