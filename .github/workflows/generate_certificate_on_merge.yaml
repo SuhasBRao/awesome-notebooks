@@ -25,7 +25,6 @@ jobs:
           org_profile_url: ${{ github.event.pull_request.head.user.html_url }}
           repo_name: ${{ github.event.repository.name }}
           contributor_name: ${{ github.actor }} 
-          user_name: ${{ github.event.pull_request.user.login }}
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{github.event.pull_request.head.user.avatar_url}}
@@ -65,36 +64,52 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       
-  comment_pr:
-    name: PR comment
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+  # comment_pr:
+  #   name: PR comment
+  #   if: github.event.pull_request.merged == true
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Create Output folder and copy image
+  #       run: | 
+  #           mkdir -p output/
+  #           cp certificate.png output/
+  #     - run: |
+  #           echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+  #           Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+  #           Spread the #opensource love  :green_heart:
+
+  #           ![Certificate](certificate.png) " > output/results.md
+      
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: results
+  #         path: output
+
+  #     - uses: actions/download-artifact@v1
+  #       with:
+  #         name: results
+      
+
+  #     - name: comment PR
+  #       uses: machine-learning-apps/pr-comment@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         path: results/results.md
+
+  pr_comment:
+    runs-on: [ubuntu-latest]
+    container: docker://dvcorg/cml-py3:latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Create Output folder and copy image
-        run: | 
-            mkdir -p output/
-            cp certificate.png output/
-      - run: |
-            echo "Thank you for your contribution @ $contributor_name, your PR has been merged into the master branch of awesome-notebook.
-            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
-            Spread the #opensource love  :green_heart:
-
-            ![Certificate](output/certificate.png) " > output/results.md
-      
-      - uses: actions/upload-artifact@v1
-        with:
-          name: results
-          path: output
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: results
-      
-
-      - name: comment PR
-        uses: machine-learning-apps/pr-comment@master
+      - uses: actions/checkout@v2
+      - name: Comment in PR section
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: results/results.md
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+            Spread the #opensource love  :green_heart:" > report.md
+          
+          cml publish certificate.png --md >> report.md
+          cml-send-comment report.md
