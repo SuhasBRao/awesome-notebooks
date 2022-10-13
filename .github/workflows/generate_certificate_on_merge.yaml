@@ -24,7 +24,7 @@ jobs:
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.html_url }}
           repo_name: ${{ github.event.repository.name }}
-          contributor_name: ${{ github.actor } 
+          contributor_name: ${{ github.actor }} 
           user_name: ${{ github.event.pull_request.user.login }}
 
         run: |
