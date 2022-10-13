@@ -64,16 +64,17 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
+      
   comment_pr:
     name: PR comment
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Create Output folder
-        run: mkdir -p output/
-
+      - name: Create Output folder and copy image
+        run: | 
+            mkdir -p output/
+            cp certificate.png output/
       - run: |
             echo "Thank you for your contribution @ $contributor_name, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
