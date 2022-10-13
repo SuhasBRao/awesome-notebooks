@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v1
       - run: mkdir -p output/
       - run: |
-            echo "Thank you for your contribution @$user_name, your PR has been merged into the master branch of awesome-notebook.
+            echo "Thank you for your contribution @ $contributor_name, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:" > output/results.md
       - uses: actions/upload-artifact@v1
