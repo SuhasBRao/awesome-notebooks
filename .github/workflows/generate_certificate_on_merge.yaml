@@ -64,64 +64,23 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       
-  # comment_pr:
-  #   name: PR comment
-  #   if: github.event.pull_request.merged == true
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: Create Output folder and copy image
-  #       run: | 
-  #           mkdir -p output/
-  #           cp certificate.png output/
-  #     - run: |
-  #           echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
-  #           Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
-  #           Spread the #opensource love  :green_heart:
-
-  #           ![Certificate](certificate.png) " > output/results.md
-      
-  #     - uses: actions/upload-artifact@v1
-  #       with:
-  #         name: results
-  #         path: output
-
-  #     - uses: actions/download-artifact@v1
-  #       with:
-  #         name: results
-      
-
-  #     - name: comment PR
-  #       uses: machine-learning-apps/pr-comment@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         path: results/results.md
-
-  pr_comment:
-    runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
+  comment_pr:
+    name: PR comment
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Create Output folder and copy image
         run: | 
             mkdir -p output/
             cp certificate.png output/
-
-      - uses: actions/checkout@v2
-
-      - name: Comment in PR section
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+      - run: |
+            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
-            Spread the #opensource love  :green_heart:![certificate](certificate.png)" > report.md
-          
-          cml-publish certificate.png --md >> report.md
+            Spread the #opensource love  :green_heart:
 
-          cml-send-comment report.md
-        
+            ![Certificate](https://kinsta.com/wp-content/uploads/2018/08/anchor-links-wordpress.png) " > output/results.md
+      
       - uses: actions/upload-artifact@v1
         with:
           name: results
@@ -130,9 +89,32 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: results
+      
+
       - name: comment PR
         uses: machine-learning-apps/pr-comment@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: results/results.md
+
+  # pr_comment:
+  #   runs-on: [ubuntu-latest]
+  #   container: docker://dvcorg/cml-py3:latest
+  #   steps:
+
+  #     - uses: actions/checkout@v2
+
+  #     - name: Comment in PR section
+  #       env:
+  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
+          
+  #       run: |
+  #         echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+  #           Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+  #           Spread the #opensource love  :green_heart:" > report.md
+          
+  #         cml-publish certificate.png --md >> report.md
+
+  #         cml-send-comment report.md
+      
