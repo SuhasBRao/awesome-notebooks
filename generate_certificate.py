@@ -119,7 +119,7 @@ def write_content(certificate_path: str, default_font_path: str,
     draw.text((220,1050), repo_url+ '/issues/'+ issue_id, font= default_font,fill="black")
     
     # saves the image in png format with file name as contributor name
-    img.save("certificate.png") 
+    img.save(".github/certificate.png") 
 
 # {
 # Driver Code starts

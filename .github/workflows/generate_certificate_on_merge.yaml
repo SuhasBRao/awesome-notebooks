@@ -58,24 +58,24 @@ jobs:
           path: output
 
             
-      # - name: Commit files
-      #   id: commit
-      #   run: |
-      #         git config --local user.email "action@github.com"
-      #         git config --local user.name "github-actions"
-      #         git add --all
-      #         if [-z "$(git status --porcelain)"]; then
-      #           echo "::set-output name=push::false"
-      #         else
-      #           git commit -m "Add certificate" -a
-      #           echo "::set-output name=push::true"
-      #         fi
-      #   shell: bash
-      # - name: Push changes
-      #   if: steps.commit.outputs.push == 'true'
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit files
+        id: commit
+        run: |
+              git config --local user.email "action@github.com"
+              git config --local user.name "github-actions"
+              git add --all
+              if [-z "$(git status --porcelain)"]; then
+                echo "::set-output name=push::false"
+              else
+                git commit -m "Add certificate" -a
+                echo "::set-output name=push::true"
+              fi
+        shell: bash
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       
   comment_pr:
     name: PR comment
@@ -98,7 +98,7 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](output/certificate.png) " > new_output/results.md
+            ![Certificate](certificate.png) " > new_output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
