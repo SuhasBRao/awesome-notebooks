@@ -70,10 +70,39 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Comment PR
+      - name: Create Output folder
+        run: | 
+            mkdir -p new_output/
+
+      - run: |
+            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+            Spread the #opensource love  :green_heart:
+
+            ![Certificate](.github/certificate.png) " > new_output/results.md
+      
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results
+          path: new_output
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: results
+      
+
+      - name: comment PR
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: results/results.md
+          
+      - name: Comment PR 2
         uses: NejcZdovc/comment-pr@v1
         with:
           file: "comment.md"
+          single_comment: false
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
