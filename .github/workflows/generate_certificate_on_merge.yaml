@@ -111,5 +111,5 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:" > report.md
           
-          cml publish certificate.png --md >> report.md
+          cml-publish certificate.png --md >> report.md
           cml-send-comment report.md
