@@ -22,7 +22,7 @@ jobs:
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
-          org_profile_url: ${{ github.event.repository.html_url }}
+          org_profile_url: ${{ github.event.pull_request.head.user.html_url }}
           repo_name: ${{ github.event.repository.name }}
           contributor_name: ${{ github.actor }} 
           user_name: ${{ github.event.pull_request.user.login }}
@@ -70,7 +70,7 @@ jobs:
             mkdir downloads
             cd downloads
             echo dir
-            cp -r certificate.png downloads/
+            cp -r "certificate.png" downloads/
             echo dir
             echo "certificate file copied"
 
