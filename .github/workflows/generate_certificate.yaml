@@ -99,11 +99,5 @@ jobs:
         with:
           path: results/results.md
           
-      - name: Comment PR 2
-        uses: NejcZdovc/comment-pr@v1
-        with:
-          file: "comment.md"
-          single_comment: false
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    
 
