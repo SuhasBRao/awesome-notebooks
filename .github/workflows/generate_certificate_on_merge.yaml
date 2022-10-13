@@ -14,9 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - uses: actions/checkout@v1
-      - run: mkdir -p output/
-
       - name: Setup Python
         uses: actions/setup-python@v2.2.2
         with:
@@ -49,13 +46,21 @@ jobs:
             echo "##########################"
             python3 generate_certificate.py
 
-            output = PIL.Image.open('certificate.png')
-            output.save('output/certificate.png')
+      - name: Create a temporary artifact downloads folder
+        run: mkdir downloads
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: results
-          path: output
+        run: |
+            cd downloads
+            cp -r certificate.png downloads/
+            echo "certificate file copied"
+
+      - name: Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v1
+        with: 
+          name: certificate_asset
+          path: downloads
+        run: echo "artifact uploaded"
+
 
   comment_pr:
     name: PR comment
@@ -64,12 +69,19 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
+        run: mkdir -p output/
+
+      - uses: actions/download-artifact@v1
+          with:
+            name: certificate_asset
+            path: output/
       - run: |
             echo "Thank you for your contribution @ $contributor_name, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](certificate.png) " > output/results.md
+            ![Certificate](output/certificate.png) " > output/results.md
+
       - uses: actions/upload-artifact@v1
         with:
           name: results
@@ -78,6 +90,8 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: results
+      
+
       - name: comment PR
         uses: machine-learning-apps/pr-comment@master
         env:
