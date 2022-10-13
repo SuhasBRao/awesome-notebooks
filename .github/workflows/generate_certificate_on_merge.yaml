@@ -65,23 +65,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create a temporary artifact downloads folder
-        run: |
-            mkdir downloads
-            cd downloads
-            echo dir
-            cp -r "certificate.png" downloads/
-            echo dir
-            echo "certificate file copied"
-
-      - name: Use the Upload Artifact GitHub Action
-        uses: actions/upload-artifact@v1
-        with: 
-          name: certificate_asset
-          path: downloads
-      - run: echo "artifact uploaded"
-
-
   comment_pr:
     name: PR comment
     if: github.event.pull_request.merged == true
@@ -91,16 +74,12 @@ jobs:
       - name: Create Output folder
         run: mkdir -p output/
 
-      - uses: actions/download-artifact@v1
-        with:
-            name: certificate_asset
-            path: output/
       - run: |
             echo "Thank you for your contribution @ $contributor_name, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](output/certificate.png) " > output/results.md
+            ![Certificate](certificate.png) " > output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
