@@ -50,9 +50,9 @@ jobs:
         run: |
             mkdir downloads
             cd downloads
-            dir
+            echo dir
             cp -r certificate.png downloads/
-            dir
+            echo dir
             echo "certificate file copied"
 
       - name: Use the Upload Artifact GitHub Action
