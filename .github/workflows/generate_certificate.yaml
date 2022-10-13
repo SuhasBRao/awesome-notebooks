@@ -1,0 +1,74 @@
+name: Generate Certificate when PR merged
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+
+jobs:
+  generate_certificate:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.8
+
+
+      - name: Get required variables And run script
+        env: 
+          pr_name: ${{ github.event.pull_request.title }}
+          org_profile_url: ${{ github.event.pull_request.head.user.html_url }}
+          repo_name: ${{ github.event.repository.name }}
+          contributor_name: ${{ github.actor }} 
+          issue_title: ${{ github.event.pull_request.head.ref }}
+          date: ${{ github.event.pull_request.created_at }}
+          logo_url: ${{github.event.pull_request.head.user.avatar_url}}
+        run: |
+            pip install bs4
+            pip install requests
+            pip install pillow
+            echo "##########################"
+            echo "Store: $pr_name"
+            echo "Org URL: $org_profile_url"
+            echo "repo_name: $repo_name"
+            echo "contributor: $contributor_name"
+            echo "user_name: $user_name"
+            echo "issue_title: $issue_title"
+            echo "date: $date"
+            echo "logo_url: $logo_url"
+            
+            echo "##########################"
+            python3 generate_certificate.py
+            
+      - name: Commit files
+        id: commit
+        run: |
+              git config --local user.email "action@github.com"
+              git config --local user.name "github-actions"
+              git add --all
+              if [-z "$(git status --porcelain)"]; then
+                echo "::set-output name=push::false"
+              else
+                git commit -m "Add certificate" -a
+                echo "::set-output name=push::true"
+              fi
+        shell: bash
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  comment_pr:
+    - needs: generate_certificate
+      uses: NejcZdovc/comment-pr@v1
+      with:
+        file: "comment.md"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
