@@ -24,6 +24,8 @@ jobs:
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.html_url }}
           repo_name: ${{ github.event.repository.name }}
+          contributor_name: ${{ github.actor } 
+          user_name: ${{ github.event.pull_request.user.login }}
 
         run: |
             pip install bs4
@@ -33,6 +35,8 @@ jobs:
             echo "Store: $pr_name"
             echo "Org URL: $org_profile_url"
             echo "repo_name: $repo_name"
+            echo "contributor: $contributor_name"
+            echo "user_name: $user_name"
             python3 generate_certificate.py
 
   comment_pr:
@@ -43,7 +47,7 @@ jobs:
       - uses: actions/checkout@v1
       - run: mkdir -p output/
       - run: |
-            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+            echo "Thank you for your contribution @$user_name, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:" > output/results.md
       - uses: actions/upload-artifact@v1
