@@ -70,7 +70,7 @@ jobs:
             mkdir downloads
             cd downloads
             echo dir
-            cp -r certificate.png downloads/
+            cp -r "certificate.png" downloads/
             echo dir
             echo "certificate file copied"
 
