@@ -28,6 +28,7 @@ jobs:
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{github.event.pull_request.head.user.avatar_url}}
+          contents_url : ${{github.event.pull_request.contents_url}}
         run: |
             pip install bs4
             pip install requests
@@ -41,7 +42,7 @@ jobs:
             echo "issue_title: $issue_title"
             echo "date: $date"
             echo "logo_url: $logo_url"
-            
+            echo "contents_url: $contents_url"
             echo "##########################"
             python3 generate_certificate.py
             
@@ -79,7 +80,7 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            <img alt="alt_text" src=".github/certificate.png" /> " > new_output/results.md
+            ![Certificate](https://raw.githubusercontent.com/SuhasBRao/awesome-notebooks/master/.github/certificate.png) " > new_output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
@@ -98,5 +99,11 @@ jobs:
         with:
           path: results/results.md
           
-    
+      - name: Comment PR 2
+        uses: NejcZdovc/comment-pr@v1
+        with:
+          file: "comment.md"
+          single_comment: false
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
