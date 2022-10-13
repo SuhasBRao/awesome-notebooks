@@ -46,13 +46,34 @@ jobs:
             echo "##########################"
             python3 generate_certificate.py
             
+      - name: Commit files
+        id: commit
+        run: |
+              git config --local user.email "action@github.com"
+              git config --local user.name "github-actions"
+              git add --all
+              if [-z "$(git status --porcelain)"]; then
+                echo "::set-output name=push::false"
+              else
+                git commit -m "Add certificate" -a
+                echo "::set-output name=push::true"
+              fi
+        shell: bash
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a temporary artifact downloads folder
+        run: |
             mkdir downloads
             cd downloads
             echo dir
             cp -r certificate.png downloads/
             echo dir
             echo "certificate file copied"
-            
+
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v1
         with: 
@@ -80,7 +101,7 @@ jobs:
             Spread the #opensource love  :green_heart:
 
             ![Certificate](output/certificate.png) " > output/results.md
-
+      
       - uses: actions/upload-artifact@v1
         with:
           name: results
