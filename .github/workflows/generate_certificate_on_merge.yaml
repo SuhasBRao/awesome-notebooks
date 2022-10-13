@@ -47,9 +47,8 @@ jobs:
             python3 generate_certificate.py
 
       - name: Create a temporary artifact downloads folder
-        run: mkdir downloads
-
         run: |
+            mkdir downloads
             cd downloads
             cp -r certificate.png downloads/
             echo "certificate file copied"
@@ -59,7 +58,7 @@ jobs:
         with: 
           name: certificate_asset
           path: downloads
-        run: echo "artifact uploaded"
+      - run: echo "artifact uploaded"
 
 
   comment_pr:
@@ -68,11 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      
+      - name: Create Output folder
         run: mkdir -p output/
 
       - uses: actions/download-artifact@v1
-          with:
+        with:
             name: certificate_asset
             path: output/
       - run: |
