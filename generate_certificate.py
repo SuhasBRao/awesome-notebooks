@@ -161,10 +161,11 @@ if __name__ == "__main__":
     
     ## Function calls
     org_bio = fetch_org_contents(org_profile_url)
-
+    print(os.listdir())
     write_content(template_path, default_font_path, content_font_path, logo_url,
              org_bio)
     
+    print(os.listdir())
     
 
 # } Driver Code ends
