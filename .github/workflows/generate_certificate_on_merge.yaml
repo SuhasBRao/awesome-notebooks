@@ -24,6 +24,7 @@ jobs:
           pr_name: ${{ github.event.pull_request.title }}
           org_profile_url: ${{ github.event.repository.html_url }}
           repo_name: ${{ github.event.repository.name }}
+
         run: |
             pip install bs4
             pip install requests
