@@ -51,7 +51,7 @@ jobs:
 
             cp certificate.png output/
 
-
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: certificate
