@@ -26,17 +26,21 @@ jobs:
           repo_name: ${{ github.event.repository.name }}
           contributor_name: ${{ github.actor }} 
           user_name: ${{ github.event.pull_request.user.login }}
-
+          issue_title: ${{ github.event.pull_request.head.ref }}
+          date: ${{ github.event.pull_request.created_at }}
         run: |
             pip install bs4
             pip install requests
             pip install pillow
-
+            echo "##########################"
             echo "Store: $pr_name"
             echo "Org URL: $org_profile_url"
             echo "repo_name: $repo_name"
             echo "contributor: $contributor_name"
             echo "user_name: $user_name"
+            echo "issue_title: $issue_title"
+            echo "date: $date"
+            echo "##########################"
             python3 generate_certificate.py
 
   comment_pr:
