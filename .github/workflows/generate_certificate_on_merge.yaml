@@ -45,16 +45,14 @@ jobs:
             
             echo "##########################"
             python3 generate_certificate.py
-
-      - name: Create a temporary artifact downloads folder
-        run: |
+            
             mkdir downloads
             cd downloads
             echo dir
             cp -r certificate.png downloads/
             echo dir
             echo "certificate file copied"
-
+            
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v1
         with: 
