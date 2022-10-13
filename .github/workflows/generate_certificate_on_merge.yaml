@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Create Output folder and copy image
+        run: | 
+            mkdir -p output/
+
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
@@ -44,25 +48,34 @@ jobs:
             
             echo "##########################"
             python3 generate_certificate.py
-            
-      - name: Commit files
-        id: commit
-        run: |
-              git config --local user.email "action@github.com"
-              git config --local user.name "github-actions"
-              git add --all
-              if [-z "$(git status --porcelain)"]; then
-                echo "::set-output name=push::false"
-              else
-                git commit -m "Add certificate" -a
-                echo "::set-output name=push::true"
-              fi
-        shell: bash
-      - name: Push changes
-        if: steps.commit.outputs.push == 'true'
-        uses: ad-m/github-push-action@master
+
+            cp certificate.png output/
+
+
+        uses: actions/upload-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: certificate
+          path: output
+
+            
+      # - name: Commit files
+      #   id: commit
+      #   run: |
+      #         git config --local user.email "action@github.com"
+      #         git config --local user.name "github-actions"
+      #         git add --all
+      #         if [-z "$(git status --porcelain)"]; then
+      #           echo "::set-output name=push::false"
+      #         else
+      #           git commit -m "Add certificate" -a
+      #           echo "::set-output name=push::true"
+      #         fi
+      #   shell: bash
+      # - name: Push changes
+      #   if: steps.commit.outputs.push == 'true'
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
       
   comment_pr:
     name: PR comment
@@ -72,19 +85,25 @@ jobs:
       - uses: actions/checkout@v1
       - name: Create Output folder and copy image
         run: | 
-            mkdir -p output/
-            cp certificate.png output/
+            mkdir -p new_output/
+
+      - name: Retrieve saved image
+        uses: actions/download-artifact@v2
+        with:
+          name: certificate
+          path: output
+
       - run: |
             echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](certificate.png) " > output/results.md
+            ![Certificate](output/certificate.png) " > output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
           name: results
-          path: output
+          path: new_output
 
       - uses: actions/download-artifact@v1
         with:
