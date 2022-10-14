@@ -28,7 +28,7 @@ jobs:
         
       - name: show result
         run: |
-          echo ${{ steps.webhook.outputs.output.data.login }}
+          echo ${{ fromJson(steps.webhook.outputs.output).data.login }}
           
           
       - name: Get required variables And run script
