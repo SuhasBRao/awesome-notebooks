@@ -23,12 +23,12 @@ jobs:
         id: webhook
         uses: satak/webrequest-action@master
         with:
-          url: https://api.github.com/repos/jupyter-naas/awesome-notebooks/pulls?state=open&per_page=1
+          url: https://api.github.com/users/jupyter-naas
           method: GET
       - name: show result
         run: |
-          $ouptut = "${{ fromJson( steps.webhook.outputs.output ) }}"
-          echo " $ouptut.data.number"
+          $ouptut = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+          echo "$ouptut.data.login"
           
       - name: Get required variables And run script
         env: 
