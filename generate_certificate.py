@@ -136,7 +136,8 @@ if __name__ == "__main__":
     pr_name = os.environ["pr_name"]
     logo_url = os.environ["logo_url"] + "&s=200"
     
-    date_of_contribution = datetime.strptime(date, "%y-%m-%dT%H:%M%SZ")
+    date_of_contribution = str(datetime.fromisoformat(date[:-1] + '+00:00').date())
+    
     print(date_of_contribution)
     # Modify these as per your needs
     # org_profile_url = "https://github.com/jupyter-naas"
