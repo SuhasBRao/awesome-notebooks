@@ -18,16 +18,16 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.8
-          
-      - name: Make Request
-        id: myRequest
-        uses: fjogeleit/http-request-action@v1
+        
+      - name: Make request
+        uses: satak/webrequest-action@master
         with:
-          url: "https://api.github.com/repos/jupyter-naas/awesome-notebooks/pulls?state=open&per_page=1"
-      - name: Show Response
+          url: https://api.github.com/repos/jupyter-naas/awesome-notebooks/pulls?state=open&per_page=1
+          method: GET
+      - name: show result
         run: |
-          echo "ownerurl: https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
-          echo ${{ fromJson(steps.myRequest.outputs.response).bio }}
+          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+          Write-Host "Time from output $($output.time) statusCode $($output.statusCode) data $($output.data)"
           
       - name: Get required variables And run script
         env: 
