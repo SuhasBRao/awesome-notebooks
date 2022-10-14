@@ -71,6 +71,16 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
+      - name: Make Request
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
+      - name: Show Response
+        run: |
+          echo "ownerurl: https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
+          echo ${{ fromJson(steps.myRequest.outputs.response).bio }}
+          
       - name: Create Output folder
         run: | 
             mkdir -p new_output/
