@@ -38,6 +38,7 @@ jobs:
           repo_name: ${{ github.event.repository.name }}
           contributor_name: ${{ github.actor }} 
           issue_title: ${{ github.event.pull_request.head.ref }}
+          issue_number: ${{ github.event.pull_request.number }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{ fromJson(steps.webhook.outputs.output).data.avatar_url }}
           org_bio: ${{ fromJson(steps.webhook.outputs.output).data.bio }}

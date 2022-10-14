@@ -98,7 +98,7 @@ def write_content(certificate_path: str, default_font_path: str,
     draw.text((120, 1050), "Verify at:", fill="black",
              font=default_font)
     
-    draw.text((220,1050), repo_url+ '/issues/'+ issue_id, font= default_font,fill="black")
+    draw.text((220,1050), repo_url+ '/issues/' + issue_id, font= default_font,fill="black")
     
     # saves the image in png format with file name as contributor name
     image_path = ".github/Contributor_certificates"
@@ -121,6 +121,7 @@ if __name__ == "__main__":
     pr_name = os.environ["pr_name"]
     logo_url = os.environ["logo_url"] + "&s=200"
     org_bio = os.environ["org_bio"]
+    issue_id = os.environ["issue_number"]
     
     date_of_contribution = str(datetime.fromisoformat(date[:-1] + '+00:00').date())
     
