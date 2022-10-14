@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: 3.8
         
-      - name: Make request
+      - name: Make request to get details
         uses: satak/webrequest-action@master
         id: webhook
         with:
@@ -47,7 +47,7 @@ jobs:
             pip install requests
             pip install pillow
             echo "##########################"
-            echo "Store: $pr_name"
+            echo "pr_name: $pr_name"
             echo "Org URL: $org_profile_url"
             echo "repo_name: $repo_name"
             echo "contributor: $contributor_name"
