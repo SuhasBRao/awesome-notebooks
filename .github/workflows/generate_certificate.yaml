@@ -20,14 +20,14 @@ jobs:
           python-version: 3.8
         
       - name: Make request
+        id: webhook
         uses: satak/webrequest-action@master
         with:
           url: https://api.github.com/repos/jupyter-naas/awesome-notebooks/pulls?state=open&per_page=1
           method: GET
       - name: show result
         run: |
-          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
-          Write-Host "Time from output $($output.time) statusCode $($output.statusCode) data $($output.data)"
+          echo ${{ fromJson(${{ steps.webhook.outputs.output }}).number }}
           
       - name: Get required variables And run script
         env: 
