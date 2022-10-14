@@ -3,26 +3,7 @@ import os
 
 from PIL import Image, ImageDraw, ImageFont
 import requests
-from io import BytesIO
-from bs4 import BeautifulSoup
 
-def fetch_org_contents(org_profile_url: str):
-    
-    github_html = requests.get(org_profile_url).text
-    soup = BeautifulSoup(github_html, "html.parser")
-    
-    # avatar_block = soup.find_all('img',class_='avatar')
-    # logo_url = avatar_block[4].get('src')
-    
-    bio_block = soup.find_all(class_='color-fg-muted')
-
-    org_bio = bio_block[9].text
-    
-    # print(logo_url)
-    print(org_bio)
-    
-    return org_bio
-    
 def write_content(certificate_path: str, default_font_path: str, 
                   content_font_path: str, logo_url: str, org_bio:str):
     
@@ -137,25 +118,20 @@ if __name__ == "__main__":
     date = os.environ["date"]
     contributor_name = os.environ["contributor_name"]
     issue_name = os.environ["issue_title"]
-    issue_id = "1212"
     pr_name = os.environ["pr_name"]
     logo_url = os.environ["logo_url"] + "&s=200"
+    org_bio = os.environ["org_bio"]
     
     date_of_contribution = str(datetime.fromisoformat(date[:-1] + '+00:00').date())
     
-    org_bio = os.environ["org_bio"]
-    print(org_bio)
-    print(date_of_contribution)
+    
 
     repo_url = org_profile_url + f'/{repo_name}'
     org_name = org_profile_url[19:].capitalize()
 
     
-    print("Inside Python:")
-    print("PR name:", pr_name)
-    print("ORG url:", org_profile_url)
-    print("Repo name", repo_name)
-    print("logo url:", logo_url)
+    print("Excecuting generate_certificate.py ")
+    
     # These are accessed later by few functions
     template_path = "certificate-template.png"
     default_font_path = "Roboto-Regular.ttf"
@@ -163,15 +139,9 @@ if __name__ == "__main__":
 
     
     ## Function calls
-#     org_bio = fetch_org_contents(org_profile_url)
-    
     write_content(template_path, default_font_path, content_font_path, logo_url,
              org_bio)
     
-    
-    
+    print(f"Created Certificate with name {contributor_name}.png")
 
 # } Driver Code ends
-    
-
-

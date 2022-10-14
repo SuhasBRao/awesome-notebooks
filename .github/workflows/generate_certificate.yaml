@@ -23,23 +23,23 @@ jobs:
         uses: satak/webrequest-action@master
         id: webhook
         with:
-          url: https://api.github.com/users/jupyter-naas
+          url: https://api.github.com/users/$GITHUB_REPOSITORY_OWNER
           method: GET
         
       - name: show result
         run: |
           echo ${{ fromJson(steps.webhook.outputs.output).data.bio }}
-        
+          
           
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
-          org_profile_url: ${{ github.event.pull_request.head.user.html_url }}
+          org_profile_url: ${{ fromJson(steps.webhook.outputs.output).data.html_url }}
           repo_name: ${{ github.event.repository.name }}
           contributor_name: ${{ github.actor }} 
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
-          logo_url: ${{github.event.pull_request.head.user.avatar_url}}
+          logo_url: ${{ fromJson(steps.webhook.outputs.output).data.avatar_url }}
           org_bio: ${{ fromJson(steps.webhook.outputs.output).data.bio }}
           
         run: |
