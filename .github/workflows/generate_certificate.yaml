@@ -28,8 +28,8 @@ jobs:
         
       - name: show result
         run: |
-          echo ${{ fromJson(steps.webhook.outputs.output).data.login }}
-          
+          echo ${{ fromJson(steps.webhook.outputs.output).data.bio }}
+        
           
       - name: Get required variables And run script
         env: 
@@ -40,6 +40,7 @@ jobs:
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{github.event.pull_request.head.user.avatar_url}}
+          org_bio: ${{ fromJson(steps.webhook.outputs.output).data.bio }}
           
         run: |
             pip install bs4

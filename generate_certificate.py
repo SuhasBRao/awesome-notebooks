@@ -143,17 +143,10 @@ if __name__ == "__main__":
     
     date_of_contribution = str(datetime.fromisoformat(date[:-1] + '+00:00').date())
     
+    org_bio = os.environ["org_bio"]
+    print(org_bio)
     print(date_of_contribution)
-    # Modify these as per your needs
-    # org_profile_url = "https://github.com/jupyter-naas"
-    # repo_name = "awesome-notebooks"
-    # date_of_contribution = "04/10/2022"
-    # contributor_name = "Suhas B"
-    # issue_name = "Pillow - Generate a certificate template #1212"
-    # issue_id = "1212"
-    # pr_name = "Python - Locate_addresses #1205"
 
- 
     repo_url = org_profile_url + f'/{repo_name}'
     org_name = org_profile_url[19:].capitalize()
 
@@ -170,12 +163,12 @@ if __name__ == "__main__":
 
     
     ## Function calls
-    org_bio = fetch_org_contents(org_profile_url)
-    # print(os.system("ls -l"))
+#     org_bio = fetch_org_contents(org_profile_url)
+    
     write_content(template_path, default_font_path, content_font_path, logo_url,
              org_bio)
     
-    # print(os.system("ls -l"))
+    
     
 
 # } Driver Code ends
