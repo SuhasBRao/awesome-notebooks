@@ -76,7 +76,7 @@ jobs:
             mkdir -p new_output/
         env: 
           contents_url : ${{github.event.pull_request.head.contents_url}}
-          repo_full_name: ${{GITHUB_REPOSITORY}}
+          repo_full_name: $GITHUB_REPOSITORY
           contributor_name: ${{ github.event.pull_request.user.login }}
           path:  .github/Contributor_certificates/$contributor_name.png
           
