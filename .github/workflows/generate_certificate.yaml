@@ -76,13 +76,13 @@ jobs:
             mkdir -p new_output/
         env: 
           contents_url : ${{github.event.pull_request.head.contents_url}}
+          repo_full_name: $GITHUB_REPOSITORY
           contributor_name: ${{ github.event.pull_request.user.login }}
           path:  .github/Contributor_certificates/$contributor_name.png
           
       - run: |
-            echo "contributor: $contributor_name"
-            echo "name : $GITHUB_REPOSITORY"
-            echo "path_to_image: https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$path "
+            echo "name : $repo_full_name "
+            echo "path_to_image: https://raw.githubusercontent.com/$repo_full_name/.github/Contributor_certificates/${{ github.event.pull_request.user.login }} "
 
             echo "Thank you for your contribution @, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
@@ -107,5 +107,3 @@ jobs:
         with:
           path: results/results.md
           
-    
-
