@@ -82,7 +82,7 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
-            ![Certificate](https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png " > new_output/results.md
+            ![Certificate](https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png) " > new_output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
