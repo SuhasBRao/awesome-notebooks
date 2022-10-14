@@ -82,7 +82,7 @@ jobs:
           
       - run: |
             echo "name : $repo_full_name "
-            echo "path_to_image: https://raw.githubusercontent.com/$repo_full_name/.github/Contributor_certificates/${{ github.event.pull_request.user.login }} "
+            echo "path_to_image: https://raw.githubusercontent.com/$GITHUB_REPOSITORY/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png "
 
             echo "Thank you for your contribution @, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
