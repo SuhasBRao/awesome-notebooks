@@ -20,17 +20,16 @@ jobs:
           python-version: 3.8
         
       - name: Make request
-        run: echo "::set-output name=output::"
-      - uses: satak/webrequest-action@master
-        id: request
+        uses: satak/webrequest-action@master
+        id: webhook
         with:
           url: https://api.github.com/users/jupyter-naas
           method: GET
         
       - name: show result
         run: |
-          $new = ${{ steps.resquest.outputs.output }}
-          echo "$new.time"
+          $new = ${{ steps.webhook.outputs.output }}
+          echo "$new"
           $ouptut = "'${{ steps.webhook.outputs.output }}' | ConvertFrom-Json "
           echo "$ouptut.data.login"
           
