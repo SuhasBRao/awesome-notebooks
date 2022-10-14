@@ -18,7 +18,17 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.8
-
+          
+      - name: Make Request
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
+      - name: Show Response
+        run: |
+          echo "ownerurl: https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
+          echo ${{ fromJson(steps.myRequest.outputs.response).bio }}
+          
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
@@ -71,15 +81,6 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Make Request
-        id: myRequest
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
-      - name: Show Response
-        run: |
-          echo "ownerurl: https://api.github.com/users/$GITHUB_REPOSITORY_OWNER"
-          echo ${{ fromJson(steps.myRequest.outputs.response).bio }}
           
       - name: Create Output folder
         run: | 
