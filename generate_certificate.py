@@ -135,8 +135,9 @@ if __name__ == "__main__":
     
     # These are accessed later by few functions
     template_path = "certificate-template.png"
-    default_font_path = "Roboto-Regular.ttf"
-    content_font_path = "AnonymousPro-Regular.ttf"
+    # this will access fonts from Pillow folders
+    default_font_path = "Pillow/Certificate-template-fonts/Roboto-Regular.ttf"
+    content_font_path = "Pillow/Certificate-template-fonts/AnonymousPro-Regular.ttf"
 
     
     ## Function calls
