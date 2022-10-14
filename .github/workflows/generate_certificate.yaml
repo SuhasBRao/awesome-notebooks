@@ -23,7 +23,7 @@ jobs:
         uses: satak/webrequest-action@master
         id: webhook
         with:
-          url: https://api.github.com/users/${{ $GITHUB_REPOSITORY_OWNER }}
+          url: https://api.github.com/users/jupyter-naas
           method: GET
         
       - name: show result
