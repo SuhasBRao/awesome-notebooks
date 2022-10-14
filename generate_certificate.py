@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 
 from PIL import Image, ImageDraw, ImageFont
@@ -119,7 +120,8 @@ def write_content(certificate_path: str, default_font_path: str,
     draw.text((220,1050), repo_url+ '/issues/'+ issue_id, font= default_font,fill="black")
     
     # saves the image in png format with file name as contributor name
-    img.save(".github/certificate.png")
+    img.save(".github/Contributor_certificates/{}.png".format(contributor_name))
+    
 
 # {
 # Driver Code starts
@@ -127,13 +129,15 @@ if __name__ == "__main__":
     # Grab variable values based on env varaibles inside.yml
     org_profile_url = os.environ["org_profile_url"]
     repo_name = os.environ["repo_name"]
-    date_of_contribution = os.environ["date"]
+    date = os.environ["date"]
     contributor_name = os.environ["contributor_name"]
     issue_name = os.environ["issue_title"]
     issue_id = "1212"
     pr_name = os.environ["pr_name"]
     logo_url = os.environ["logo_url"] + "&s=200"
     
+    date_of_contribution = datetime.strptime(date, "%y-%m-%sT%H:%M%SZ")
+    print(date_of_contribution)
     # Modify these as per your needs
     # org_profile_url = "https://github.com/jupyter-naas"
     # repo_name = "awesome-notebooks"

@@ -28,7 +28,7 @@ jobs:
           issue_title: ${{ github.event.pull_request.head.ref }}
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{github.event.pull_request.head.user.avatar_url}}
-          contents_url : ${{github.event.pull_request.head.contents_url}}
+          
         run: |
             pip install bs4
             pip install requests
@@ -42,7 +42,7 @@ jobs:
             echo "issue_title: $issue_title"
             echo "date: $date"
             echo "logo_url: $logo_url"
-            echo "contents_url: $contents_url"
+            
             echo "##########################"
             python3 generate_certificate.py
             
@@ -74,9 +74,17 @@ jobs:
       - name: Create Output folder
         run: | 
             mkdir -p new_output/
-
+        env: 
+          contents_url : ${{github.event.pull_request.head.contents_url}}
+          repo_full_name: ${{github.event.pull_request.head.repo.full_name}}
+          contributor_name: ${{ github.event.pull_request.user.login }}
+          path:  .github/Contributor_certificates/$contributor_name.png
+          
       - run: |
-            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+            echo "name : $repo_full_name "
+            echo "path_to_image: https://raw.githubusercontent.com/$repo_full_name/$path "
+
+            echo "Thank you for your contribution @, your PR has been merged into the master branch of awesome-notebook.
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:
 
