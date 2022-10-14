@@ -27,7 +27,8 @@ jobs:
           method: GET
       - name: show result
         run: |
-          echo " ${{ fromJson(steps.webhook.outputs.output).number}} "
+          $ouptut = ${{ fromJson( steps.webhook.outputs.output.data ) }}
+          echo " $ouptut.number}} "
           
       - name: Get required variables And run script
         env: 
