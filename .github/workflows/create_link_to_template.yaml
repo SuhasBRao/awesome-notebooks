@@ -1,0 +1,7 @@
+name: Create a link to template on master
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
