@@ -3,5 +3,18 @@ on:
   pull_request:
     types:
       - closed
+      - open
     branches:
       - master
+
+jobs:
+  check_for_notebook:
+#     if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for notebook in commit
+        uses: brettcannon/check-for-changed-files@v1
+        with:
+          file-pattern: "changelog.d/*.ipynb"
+          skip-label: "skip news"
+          failure-message: "Missing a news file in ${file-pattern}; please add one or apply the ${skip-label} label to the pull request"
