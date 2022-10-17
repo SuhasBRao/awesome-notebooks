@@ -13,33 +13,26 @@ jobs:
 #     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-
-      - name: Create Output folder
-        run: | 
-            mkdir -p output/
-
-      - name: Get file changes in commit
-        id: files
-        uses: jitterbit/get-changed-files@v1
-        continue-on-error: true
-      - name: List files
+      - uses: actions/checkout@v2
+        with:
+          # Checkout as many commits as needed for the diff
+          fetch-depth: 2
+      - shell: pwsh
+        # Give an id to the step, so we can reference it later
+        id: check_file_changed
         run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            echo "File: ${changed_file}."
-            echo "file_name=${changed_file}" >> $GITHUB_ENV
-            echo "$contains("${changed_file}", ".ipynb")"
+          # Diff HEAD with the previous commit
+          $diff = git diff --name-only HEAD^ HEAD
 
-            if [[$changed_file == *".ipynb."*]]; then
-              echo "found .ipynb"
-            fi
-          done
+          # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
+          $SourceDiff = $diff | Where-Object { $_ -match '.ipynb$' }
+          $HasDiff = $SourceDiff.Length -gt 0
 
-      - name: Check for .ipynb
-        if: contains( ${{ steps.files.outputs.added }}, ".ipynb" ) 
-        run: |
-          echo "The template is now available on the master branch on this link: 
-          https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
-          
-          "
-          echo "Contains a .ipynb file"
-        
+          # Set the output named "docs_changed"
+          Write-Host "::set-output name=docs_changed::$HasDiff"
+
+      # Run the step only with "docs_changed" equals "True"
+      - shell: pwsh
+        # steps.<step_id>.outputs.<output name>
+        if: steps.check_file_changed.outputs.docs_changed == 'True'
+        run: echo "File was changed"
