@@ -32,7 +32,7 @@ jobs:
         id: webhook
         # replace url with your organization's name if needed
         with:
-          url: https://api.github.com/repos/$repo_full_name/pulls/${{ github.event.pull_request.number }}/files
+          url: https://api.github.com/repos/${repo_full_name}/pulls/${{ github.event.pull_request.number }}/files
           method: GET
       
       - name: show result
