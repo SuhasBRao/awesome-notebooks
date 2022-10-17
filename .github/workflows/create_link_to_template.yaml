@@ -13,26 +13,15 @@ jobs:
 #     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v12
+        id: verify-changed-files
         with:
-          # Checkout as many commits as needed for the diff
-          fetch-depth: 2
-      - shell: pwsh
-        # Give an id to the step, so we can reference it later
-        id: check_file_changed
+          files: |
+             *.ipynb
+
+      - name: Run step only when files change.
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
-          # Diff HEAD with the previous commit
-          $diff = git diff --name-only HEAD^ HEAD
-
-          # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-          $SourceDiff = $diff | Where-Object { $_ -match '.ipynb$' }
-          $HasDiff = $SourceDiff.Length -gt 0
-
-          # Set the output named "docs_changed"
-          Write-Host "::set-output name=docs_changed::$HasDiff"
-
-      # Run the step only with "docs_changed" equals "True"
-      - shell: pwsh
-        # steps.<step_id>.outputs.<output name>
-        if: steps.check_file_changed.outputs.docs_changed == 'True'
-        run: echo "File was changed"
+          echo "Changed files: ${{ steps.verify-changed-files.outputs.changed_files }}"
+        # Outputs: "Changed files: new.txt test_directory/new.txt"
