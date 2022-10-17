@@ -13,6 +13,11 @@ jobs:
 #     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
+
+      - name: Create Output folder
+        run: | 
+            mkdir -p output/
+
       - name: Get file changes in commit
         id: files
         uses: jitterbit/get-changed-files@v1
@@ -21,8 +26,17 @@ jobs:
         run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "File: ${changed_file}."
+            if: contains( ${changed_file}, ".ipynb" ); then
+            echo "found .ipynb"
           done
+
       - name: Check for .ipynb
         if: contains( ${{ steps.files.outputs.added }}, ".ipynb" ) 
-        run: echo "Contains a .ipynb file"
-  
+        run: |
+          echo "The template is now available on the master branch on this link: 
+          https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
+          
+          "
+      
+          echo "Contains a .ipynb file"
+        
