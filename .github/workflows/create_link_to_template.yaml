@@ -26,7 +26,8 @@ jobs:
         run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "File: ${changed_file}."
-            if endsWith( changed_file, ".ipynb" ); then
+            echo "file_name=${changed_file}" >> $GITHUB_ENV
+            if endsWith( env.file_name, ".ipynb" ); then
               echo "found .ipynb"
             fi
           done
