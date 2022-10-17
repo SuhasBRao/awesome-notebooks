@@ -3,7 +3,7 @@ on:
   pull_request:
     types:
       - closed
-      - open
+      - opened
     branches:
       - master
 
@@ -15,6 +15,7 @@ jobs:
       - name: Check for notebook in commit
         id: files
         uses: jitterbit/get-changed-files@v1
+        continue-on-error: true
       - run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "Do something with this ${changed_file}."
