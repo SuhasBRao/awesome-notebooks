@@ -26,8 +26,8 @@ jobs:
         run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "File: ${changed_file}."
-            if: contains( ${changed_file}, ".ipynb" ); then
-            echo "found .ipynb"
+            if contains( ${changed_file}, ".ipynb" ); then
+              echo "found .ipynb"
           done
 
       - name: Check for .ipynb
