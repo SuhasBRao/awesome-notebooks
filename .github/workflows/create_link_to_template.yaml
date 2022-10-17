@@ -28,7 +28,7 @@ jobs:
             echo "File: ${changed_file}."
             echo "file_name=${changed_file}" >> $GITHUB_ENV
 
-            if [["env.file_name" == *".ipynb"*]]; then
+            if [["$changed_file" == *".ipynb"*]]; then
               echo "found .ipynb"
             fi
           done
