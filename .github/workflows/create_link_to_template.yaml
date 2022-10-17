@@ -26,21 +26,21 @@ jobs:
         if: contains( ${{ steps.files.outputs.all }}, ".ipynb" ) 
         run: echo "Contains a .ipynb file"
   
-#   Call_for_API:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Make request to get details
-#         uses: satak/webrequest-action@master
-#         id: webhook
-#         # replace url with your organization's name if needed
-#         with:
-#           url: https://api.github.com/repos/${{ github.event.pull_request.head.repo.full_name }}/pulls/${{ github.event.pull_request.number }}/files
-#           method: GET
+  Call_for_API:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make request to get details
+        uses: satak/webrequest-action@master
+        id: webhook
+        # replace url with your organization's name if needed
+        with:
+          url: https://api.github.com/repos/${{ github.event.pull_request.head.repo.full_name }}/pulls/${{ github.event.pull_request.number }}/files
+          method: GET
       
-#       - name: show result
-#         run: |
-#           for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
-#             echo "Do something with thhis ${changed_files.filename}."
-#           done
-#         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
+      - name: show result
+        run: |
+          for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
+            echo "File: ${changed_files}."
+          done
+        #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
 
