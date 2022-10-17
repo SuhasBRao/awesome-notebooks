@@ -13,15 +13,30 @@ jobs:
 #     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v12
-        id: verify-changed-files
-        with:
-          files: |
-             *.ipynb
 
-      - name: Run step only when files change.
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+      - name: Create Output folder
+        run: | 
+            mkdir -p output/
+
+      - name: Get file changes in commit
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        continue-on-error: true
+      - name: List files
         run: |
-          echo "Changed files: ${{ steps.verify-changed-files.outputs.changed_files }}"
-        # Outputs: "Changed files: new.txt test_directory/new.txt"
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "File: ${changed_file}."
+            if [["${changed_file}" == *".ipynb."*]]; then
+              echo "found .ipynb"
+            fi
+          done
+
+      - name: Check for .ipynb
+        if: contains( ${{ steps.files.outputs.added }}, ".ipynb" ) 
+        run: |
+          echo "The template is now available on the master branch on this link: 
+          https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
+          
+          "
+          echo "Contains a .ipynb file"
+        
