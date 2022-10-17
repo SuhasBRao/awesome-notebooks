@@ -27,7 +27,7 @@ jobs:
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "File: ${changed_file}."
             echo "file_name=${changed_file}" >> $GITHUB_ENV
-            echo contains("${changed_file}", ".ipynb")
+            echo "$contains("${changed_file}", ".ipynb")""
 
             if [[$changed_file == *".ipynb."*]]; then
               echo "found .ipynb"
