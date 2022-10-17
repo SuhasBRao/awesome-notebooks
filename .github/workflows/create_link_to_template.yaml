@@ -20,6 +20,8 @@ jobs:
       - run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "Do something with this ${changed_file}."
+            if: contains(${changed_file}, '.ipynb'); do
+              echo "Found a .ipynb file"
           done
   
   Call_for_API:
@@ -35,8 +37,8 @@ jobs:
       
       - name: show result
         run: |
-          for changed_files in ${{ fromJson(steps.webhook.outputs.output).data.filename }}; do
-            echo "Do something with thhis ${changed_files}."
+          for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
+            echo "Do something with thhis ${changed_files.filename}."
           done
         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
 
