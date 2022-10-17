@@ -39,7 +39,7 @@ jobs:
       
       - name: show result
         run: |
-          for changed_files in ${{ steps.webhook.outputs.output) }}; do
+          for changed_files in ${{ steps.webhook.outputs.output }}; do
             echo "File: ${changed_files}."
           done
         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
