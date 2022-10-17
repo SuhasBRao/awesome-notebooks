@@ -28,6 +28,8 @@ jobs:
             # echo "File: ${changed_file}."
             if [[ "${changed_file}" == *".ipynb."* ]]; then
               echo "its there"
+            else
+              echo "not there"
             fi
           done
 
