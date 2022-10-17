@@ -25,9 +25,9 @@ jobs:
   Call_for_API:
     runs-on: ubuntu-latest
     steps:
-      env: 
-        repo_full_name: ${{ GITHUB_REPOSITORY }}
       - name: Make request to get details
+        env: 
+          repo_full_name: ${{ GITHUB_REPOSITORY }}
         uses: satak/webrequest-action@master
         id: webhook
         # replace url with your organization's name if needed
