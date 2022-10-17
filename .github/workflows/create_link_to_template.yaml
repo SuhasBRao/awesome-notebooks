@@ -35,7 +35,7 @@ jobs:
       
       - name: show result
         run: |
-          for changed files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
+          for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
             echo "Do something with thhis ${changed_fiels}."
           done
         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
