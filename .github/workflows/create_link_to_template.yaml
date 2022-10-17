@@ -30,13 +30,13 @@ jobs:
         id: webhook
         # replace url with your organization's name if needed
         with:
-          url: https://api.github.com/repos/jupyter-naas/awesome-notebooks/pulls/${{ github.event.pull_request.number }}/files
+          url: https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/files
           method: GET
       
       - name: show result
         run: |
           for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
-            echo "Do something with thhis ${changed_fiels}."
+            echo "Do something with thhis ${changed_files}."
           done
         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
 
