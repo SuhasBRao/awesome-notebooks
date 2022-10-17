@@ -28,17 +28,12 @@ jobs:
             echo "File: ${changed_file}."
             if [[ "${changed_file}" == *".ipynb"* ]]; then
               echo "its there"
+
+              echo "The template is now available on the master branch on this link: 
+              https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
+              "
             else
               echo "not there"
             fi
           done
-
-      - name: Check for .ipynb
-        if: contains( ${{ steps.files.outputs.added }}, ".ipynb" ) 
-        run: |
-          echo "The template is now available on the master branch on this link: 
-          https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
-          
-          "
-          echo "Contains a .ipynb file"
         
