@@ -26,7 +26,7 @@ jobs:
         run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "File: ${changed_file}."
-            if [endsWith( "${chagned_file}", ".ipynb" )]; then
+            if [endsWith( "${changed_file}", ".ipynb" )]; then
               echo "found .ipynb"
             fi
           done
