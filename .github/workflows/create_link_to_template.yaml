@@ -13,32 +13,34 @@ jobs:
 #     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Check for notebook in commit
+      - name: Get file changes in commit
         id: files
         uses: jitterbit/get-changed-files@v1
         continue-on-error: true
-      - run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            echo "Do something with this ${changed_file}."
-            if: contains(${changed_file}, '.ipynb'); do
-              echo "Found a .ipynb file"
-          done
-  
-  Call_for_API:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Make request to get details
-        uses: satak/webrequest-action@master
-        id: webhook
-        # replace url with your organization's name if needed
-        with:
-          url: https://api.github.com/repos/${{ github.event.pull_request.head.repo.full_name }}/pulls/${{ github.event.pull_request.number }}/files
-          method: GET
-      
-      - name: show result
+      - name: List files
         run: |
-          for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
-            echo "Do something with thhis ${changed_files.filename}."
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            echo "File: ${changed_file}."
           done
-        #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
+      - name: Check for .ipynb
+        if: contains( ${{ steps.files.outputs.all }}, ".ipynb" ) 
+        run: echo "Contains a .ipynb file"
+  
+#   Call_for_API:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Make request to get details
+#         uses: satak/webrequest-action@master
+#         id: webhook
+#         # replace url with your organization's name if needed
+#         with:
+#           url: https://api.github.com/repos/${{ github.event.pull_request.head.repo.full_name }}/pulls/${{ github.event.pull_request.number }}/files
+#           method: GET
+      
+#       - name: show result
+#         run: |
+#           for changed_files in ${{ fromJson(steps.webhook.outputs.output).data }}; do
+#             echo "Do something with thhis ${changed_files.filename}."
+#           done
+#         #  echo ${{ fromJson(steps.webhook.outputs.output).data }}
 
