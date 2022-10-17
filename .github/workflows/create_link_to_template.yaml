@@ -27,12 +27,12 @@ jobs:
     steps:
       - name: Make request to get details
         env: 
-          repo_full_name: $GITHUB_REPOSITORY
+          my_url: https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/files
         uses: satak/webrequest-action@master
         id: webhook
         # replace url with your organization's name if needed
         with:
-          url: https://api.github.com/repos/${repo_full_name}/pulls/${{ github.event.pull_request.number }}/files
+          url: $my_url
           method: GET
       
       - name: show result
