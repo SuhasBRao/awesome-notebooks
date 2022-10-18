@@ -85,7 +85,7 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image="'"$( base64 certificate.png)"'""
+          --form "image='$( base64 certificate.png)'"
 
             
       - name: Show output from upload
