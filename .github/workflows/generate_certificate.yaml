@@ -118,6 +118,8 @@ jobs:
             Spread the #opensource love  :green_heart:" > new_output/results.md
 
             echo '![](./certificate.png)' >> new_output/results.md
+
+            cml comment create --publish report.md
       
       
       - uses: actions/upload-artifact@v1
