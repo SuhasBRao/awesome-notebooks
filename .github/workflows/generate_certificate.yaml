@@ -76,8 +76,8 @@ jobs:
           name: certificate
           path: output
       
-      # - run: |
-      #     echo "$(cat certificate.png | base64)"
+      - run: |
+          echo "test=$(cat certificate.png | base64)" >> $GITHUB_ENV
 
       - name: Upload image to IMGBB
         env:
@@ -86,7 +86,7 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image=${img_data}"
+          --form "image=${{ env.test }}"
 
             
       - name: Show output from upload
