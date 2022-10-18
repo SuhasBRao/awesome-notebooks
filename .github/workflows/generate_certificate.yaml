@@ -117,7 +117,7 @@ jobs:
             Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
             Spread the #opensource love  :green_heart:" > new_output/results.md
       
-      - run: cml publish certificate/certificate.png --md >> new_output/results.md
+      - run: cml publish certificate.png --md >> new_output/results.md
       
       - uses: actions/upload-artifact@v1
         with:
