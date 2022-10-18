@@ -133,16 +133,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: certificate
-          path: result_image
-      
-      - run: |
-            cd result_image
-            echo "ls -l"
 
       - name: comment PR image
         uses: machine-learning-apps/pr-comment@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: result_image/certificate.png
+          path: certificate/certificate.png
           
