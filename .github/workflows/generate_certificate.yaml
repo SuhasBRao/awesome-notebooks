@@ -74,7 +74,10 @@ jobs:
         with:
           name: certificate
           path: output
-        
+      
+      - run: |
+          echo "$(cat DSC_0251.JPG | base64)"
+
       - name: Upload image to IMGBB
         env:
           API: ${{ secrets.IMGBB_API }}
