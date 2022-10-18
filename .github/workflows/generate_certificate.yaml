@@ -77,7 +77,7 @@ jobs:
           path: output
       
       - run: |
-          echo '$(cat certificate.png | base64)'
+          echo "$(cat certificate.png | base64)"
 
       - name: Upload image to IMGBB
         env:
@@ -85,7 +85,7 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image='$(cat certificate.png | base64)'"
+          --form "image="'"$( base64 certificate.png)"'""
 
             
       - name: Show output from upload
