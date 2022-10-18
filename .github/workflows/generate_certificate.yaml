@@ -81,10 +81,11 @@ jobs:
       - name: Upload image to IMGBB
         env:
           API: ${{ secrets.IMGBB_API }}
+          img_data: "$(cat certificate.png | base64)"
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image=$( base64 certificate.png )"
+          --form "image=$img_data"
             
       - name: Show output from upload
         run: |
