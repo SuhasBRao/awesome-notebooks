@@ -103,6 +103,11 @@ jobs:
       - name: Create Output folder
         run: | 
             mkdir -p new_output/
+      
+      - name: Retrieve saved image
+        uses: actions/download-artifact@v2
+        with:
+          name: certificate
         
       - run: |
             echo "path_to_image: https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png "
@@ -112,6 +117,8 @@ jobs:
             Spread the #opensource love  :green_heart:
 
             ![Certificate](https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png) " > new_output/results.md
+      
+      - run: cml-publish certificate.png --md >> new_output/show_image.md
       
       - uses: actions/upload-artifact@v1
         with:
@@ -129,15 +136,10 @@ jobs:
         with:
           path: results/results.md
 
-      - name: Retrieve saved image
-        uses: actions/download-artifact@v2
-        with:
-          name: certificate
-
       - name: comment PR image
         uses: machine-learning-apps/pr-comment@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: certificate.png
+          path: results/show_image.md
           
