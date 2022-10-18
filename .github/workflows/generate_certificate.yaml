@@ -3,12 +3,13 @@ on:
   pull_request:
     types:
       - closed
+      - opened
     branches:
       - master
 
 jobs:
   generate_certificate:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,7 +32,11 @@ jobs:
         run: |
           echo ${{ fromJson(steps.webhook.outputs.output).data.bio }}
 
-          
+      - name: Create Output folder
+        run: | 
+            mkdir -p output/
+      
+
       - name: Get required variables And run script
         env: 
           pr_name: ${{ github.event.pull_request.title }}
@@ -60,25 +65,33 @@ jobs:
             
             echo "##########################"
             python3 generate_certificate.py
-            
-      - name: Commit files
-        id: commit
-        run: |
-              git config --local user.email "action@github.com"
-              git config --local user.name "github-actions"
-              git add --all
-              if [-z "$(git status --porcelain)"]; then
-                echo "::set-output name=push::false"
-              else
-                git commit -m "Add certificate" -a
-                echo "::set-output name=push::true"
-              fi
-        shell: bash
-      - name: Push changes
-        if: steps.commit.outputs.push == 'true'
-        uses: ad-m/github-push-action@master
+
+            cp certificate.png output/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: certificate
+          path: output
+            
+      # - name: Commit files
+      #   id: commit
+      #   run: |
+      #         git config --local user.email "action@github.com"
+      #         git config --local user.name "github-actions"
+      #         git add --all
+      #         if [-z "$(git status --porcelain)"]; then
+      #           echo "::set-output name=push::false"
+      #         else
+      #           git commit -m "Add certificate" -a
+      #           echo "::set-output name=push::true"
+      #         fi
+      #   shell: bash
+      # - name: Push changes
+      #   if: steps.commit.outputs.push == 'true'
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
   
   comment_pr:
     needs: generate_certificate
@@ -90,6 +103,12 @@ jobs:
       - name: Create Output folder
         run: | 
             mkdir -p new_output/
+
+      - name: Retrieve saved image
+        uses: actions/download-artifact@v2
+        with:
+          name: certificate
+          path: output
         
       - run: |
             echo "path_to_image: https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png "
@@ -116,4 +135,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: results/results.md
+
+      - name: comment PR image
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: output/certificate.png
           
