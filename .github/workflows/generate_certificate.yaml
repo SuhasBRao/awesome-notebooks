@@ -77,7 +77,7 @@ jobs:
           path: output
       
       - run: |
-          echo "test=$(cat certificate.png | base64)" >> $GITHUB_ENV
+          echo "test=$(cat certificate.png | base64)<<EOF" >> $GITHUB_ENV
 
       - name: Upload image to IMGBB
         env:
