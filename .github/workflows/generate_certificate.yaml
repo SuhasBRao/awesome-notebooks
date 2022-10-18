@@ -85,7 +85,8 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image=$img_data"
+          --form "image=$(cat certificate.png | base64)"
+
             
       - name: Show output from upload
         run: |
@@ -93,45 +94,45 @@ jobs:
   
 
 
-  comment_pr:
-    needs: generate_certificate
-    name: PR comment
-    # if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
+  # comment_pr:
+  #   needs: generate_certificate
+  #   name: PR comment
+  #   # if: github.event.pull_request.merged == true
+  #   runs-on: ubuntu-latest
+  #   steps:
 
-      - uses: iterative/setup-cml@v1
-      - name: Create Output folder
-        run: | 
-            mkdir -p new_output/
+  #     - uses: iterative/setup-cml@v1
+  #     - name: Create Output folder
+  #       run: | 
+  #           mkdir -p new_output/
       
-      - name: Retrieve saved image
-        uses: actions/download-artifact@v2
-        with:
-          name: certificate
+  #     - name: Retrieve saved image
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: certificate
       
-      - run: |
-            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
-            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
-            Spread the #opensource love  :green_heart:" > new_output/results.md
+  #     - run: |
+  #           echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+  #           Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+  #           Spread the #opensource love  :green_heart:" > new_output/results.md
 
-            echo '![](./certificate.png)' >> new_output/results.md
+  #           echo '![](./certificate.png)' >> new_output/results.md
 
       
-      - uses: actions/upload-artifact@v1
-        with:
-          name: results
-          path: new_output
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: results
+  #         path: new_output
 
-      - uses: actions/download-artifact@v1
-        with:
-          name: results
+  #     - uses: actions/download-artifact@v1
+  #       with:
+  #         name: results
 
-      - name: comment PR
-        uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: results/results.md
+  #     - name: comment PR
+  #       uses: machine-learning-apps/pr-comment@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         path: results/results.md
 
           
