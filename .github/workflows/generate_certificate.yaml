@@ -103,12 +103,6 @@ jobs:
       - name: Create Output folder
         run: | 
             mkdir -p new_output/
-
-      - name: Retrieve saved image
-        uses: actions/download-artifact@v2
-        with:
-          name: certificate
-          path: output
         
       - run: |
             echo "path_to_image: https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/.github/Contributor_certificates/${{ github.event.pull_request.user.login }}.png "
@@ -127,7 +121,6 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: results
-      
 
       - name: comment PR
         uses: machine-learning-apps/pr-comment@master
@@ -136,10 +129,20 @@ jobs:
         with:
           path: results/results.md
 
+      - name: Retrieve saved image
+        uses: actions/download-artifact@v2
+        with:
+          name: certificate
+          path: result_image
+      
+      - run: |
+            cd result_image
+            echo "ls -l"
+
       - name: comment PR image
         uses: machine-learning-apps/pr-comment@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: output/certificate.png
+          path: result_image/certificate.png
           
