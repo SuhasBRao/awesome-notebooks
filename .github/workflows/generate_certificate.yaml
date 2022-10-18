@@ -76,7 +76,7 @@ jobs:
           path: output
       
       - run: |
-          echo "$(cat DSC_0251.JPG | base64)"
+          echo "$(cat certificate.png | base64)"
 
       - name: Upload image to IMGBB
         env:
