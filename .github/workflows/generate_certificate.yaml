@@ -12,6 +12,9 @@ jobs:
   generate_certificate:
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    env:
+        API: ${{ secrets.IMGBB_API }}
+        img_data: ${ cat certificate.png | base64 }
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -76,12 +79,11 @@ jobs:
           path: output
       
       - run: |
-          echo "$(cat certificate.png | base64)"
+          echo "$img_data"
+          echo "$API"
 
       - name: Upload image to IMGBB
-        env:
-          API: ${{ secrets.IMGBB_API }}
-          img_data: ${ cat certificate.png | base64 }
+        
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
