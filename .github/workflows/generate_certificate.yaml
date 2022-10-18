@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         API: ${{ secrets.IMGBB_API }}
-        img_data: "$(cat certificate.png | base64 )"
+        img_data: "$(cat certificate.png | base64)"
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -79,8 +79,8 @@ jobs:
           path: output
       
       - run: |
-          echo "$img_data"
-          echo "$API"
+          echo "${img_data}"
+          echo "${API}"
 
       - name: Upload image to IMGBB
         
