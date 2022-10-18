@@ -139,5 +139,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: certificate/certificate.png
+          path: certificate.png
           
