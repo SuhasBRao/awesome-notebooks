@@ -86,7 +86,7 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image= $img_data"
+          --form "image=$img_data"
 
             
       - name: Show output from upload
