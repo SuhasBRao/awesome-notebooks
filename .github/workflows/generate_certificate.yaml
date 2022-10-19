@@ -80,16 +80,21 @@ jobs:
         id: base64
         run: |
           echo "$(cat certificate.png | base64)"
-          
+      
       - name: Upload image to IMGBB
         env:
           API: ${{ secrets.IMGBB_API }}
         id: imgbb
-        run: >-
-          curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image=https://i.stack.imgur.com/6ANvY.png"
-
-            
+        run: |
+          img_data = "$(cat certificate.png | base64)"
+          RESPONSE=$(curl -s --location \
+          --request POST "https://api.imgbb.com/1/upload?key=$API" \
+          --form "image=${img_data}")
+          URL=$(echo $RESPONSE | sed 's/^.*"display_url":"//' | sed 's/",.*$//')
+          URL=$(echo $URL | sed 's#\\/#/#g')
+          echo $URL
+          
+          
       - name: Show output from upload
         run: |
           echo ${{ steps.imgbb.outputs}}
