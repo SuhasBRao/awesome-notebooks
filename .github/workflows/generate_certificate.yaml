@@ -89,7 +89,7 @@ jobs:
         run: |
           RESPONSE=$(curl -s --location \
           --request POST "https://api.imgbb.com/1/upload?key=$API" \
-          --form "image=@certificate.png.base64")
+          --form "image=@$certificate.png.base64")
           URL=$(echo $RESPONSE | sed 's/^.*"display_url":"//' | sed 's/",.*$//')
           URL=$(echo $URL | sed 's#\\/#/#g')
           echo $URL
