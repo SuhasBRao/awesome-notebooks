@@ -68,7 +68,7 @@ jobs:
             echo "##########################"
             python3 generate_certificate.py
 
-            cp certificate.png output/
+            cp $contributor_name.png output/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
