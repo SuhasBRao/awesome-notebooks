@@ -34,7 +34,7 @@ jobs:
         run: |
           echo ${{ fromJson(steps.webhook.outputs.output).data.bio }}
 
-      - name: Create Output folder
+      - name: Create Temporary Output folder
         run: | 
             mkdir -p output/
       
@@ -80,7 +80,7 @@ jobs:
         run: |
           ls -l
       
-      - name: Upload image to IMGBB
+      - name: Upload image to IMGBB with contributor name
         env:
           API: ${{ secrets.IMGBB_API }}
         id: imgbb
@@ -91,6 +91,31 @@ jobs:
           URL=$(echo $RESPONSE | sed 's/^.*"display_url":"//' | sed 's/",.*$//')
           URL=$(echo $URL | sed 's#\\/#/#g')
           echo $URL
+
+      - run: |
+            echo ${{ steps.imgbb.outputs }}
+            echo "Thank you for your contribution @${{ github.event.pull_request.user.login }}, your PR has been merged into the master branch of awesome-notebook.
+            Here is the contribution certificate you can share on social media so everybody knows how awesome you are :call_me_hand::earth_americas:.
+            Spread the #opensource love  :green_heart:" > new_output/results.md
+
+            echo '![]()' >> output/results.md
+
+      
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results
+          path: output
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: results
+
+      - name: comment PR
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: results/results.md
         
 
   # comment_pr:
