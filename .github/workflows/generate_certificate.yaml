@@ -79,8 +79,8 @@ jobs:
       - name: convert to base64
         id: base64
         run: |
-          echo "base64 -w 0 certificate.png > certificate.png.base64"
-          echo "ls -l"
+          base64 -w 0 certificate.png > certificate.png.base64
+          ls -l
       
       - name: Upload image to IMGBB
         env:
@@ -88,6 +88,7 @@ jobs:
         id: imgbb
         run: |
           img_data="$( base64 certificate.png )"
+          echo $img_data
           RESPONSE=$(curl -s --location \
           --request POST "https://api.imgbb.com/1/upload?key=$API" \
           --form "image=@$certificate.png.base64")
