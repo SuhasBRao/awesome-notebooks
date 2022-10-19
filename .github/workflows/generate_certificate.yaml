@@ -76,17 +76,17 @@ jobs:
           name: certificate
           path: output
       
-      - name: convert to base64
-        id: base64
-        run: |
-          echo "$(cat certificate.png | base64)"
+#       - name: convert to base64
+#         id: base64
+#         run: |
+#           echo "$(cat certificate.png | base64)"
       
       - name: Upload image to IMGBB
         env:
           API: ${{ secrets.IMGBB_API }}
         id: imgbb
         run: |
-          img_data = "$(cat certificate.png | base64)"
+          img_data="$( base64 certificate.png )"
           RESPONSE=$(curl -s --location \
           --request POST "https://api.imgbb.com/1/upload?key=$API" \
           --form "image=${img_data}")
