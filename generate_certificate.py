@@ -108,7 +108,7 @@ def write_content(certificate_path: str, default_font_path: str,
         
 #     img.save(f"{image_path}/{contributor_name}.png")
 
-    img.save("certificate.png")
+    img.save(f"{contributor_name}.png")
 
     
 

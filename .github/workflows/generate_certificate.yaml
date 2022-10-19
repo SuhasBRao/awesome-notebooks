@@ -76,11 +76,9 @@ jobs:
           name: certificate
           path: output
       
-      - name: convert to base64
-        id: base64
+      - name: List files
         run: |
-          base64 -w 0 certificate.png > certificate.png.base64
-        # ls -l
+          ls -l
       
       - name: Upload image to IMGBB
         env:
@@ -88,20 +86,12 @@ jobs:
         id: imgbb
         run: |
           RESPONSE=$(curl -s --location \
-          --request POST "https://api.imgbb.com/1/upload?key=$API" \
-          --form "image=@certificate.png")
+                    --request POST "https://api.imgbb.com/1/upload?key=$API" \
+                    --form "image=@$contributor_name.png")
           URL=$(echo $RESPONSE | sed 's/^.*"display_url":"//' | sed 's/",.*$//')
           URL=$(echo $URL | sed 's#\\/#/#g')
           echo $URL
-        # img_data="$( base64 certificate.png )"
-        # echo $img_data
-          
-          
-#       - name: Show output from upload
-#         run: |
-#           echo ${{ steps.imgbb.outputs}}
-  
-
+        
 
   # comment_pr:
   #   needs: generate_certificate
