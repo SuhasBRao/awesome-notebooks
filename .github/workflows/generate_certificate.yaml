@@ -76,10 +76,10 @@ jobs:
           name: certificate
           path: output
       
-      - run: |
-          echo "test<<EOF" >> $GITHUB_ENV
-          "$(cat certificate.png | base64)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+      # - run: |
+      #     echo "test<<EOF" >> $GITHUB_ENV
+      #     "$(cat certificate.png | base64)" >> $GITHUB_ENV
+      #     echo "EOF" >> $GITHUB_ENV
           
       - name: Upload image to IMGBB
         env:
@@ -88,7 +88,7 @@ jobs:
         id: imgbb
         run: >-
           curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=$API" 
-          --form "image=${{ env.test }}"
+          --form "image=data:image/png;base64,$img_data"
 
             
       - name: Show output from upload
