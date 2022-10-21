@@ -3,13 +3,17 @@ on:
   pull_request:
     types:
       - closed
-      
+      - opened
+      - reopened
+  issues:
+    types: 
+      - closed
     branches:
       - master
 
 jobs:
   check_for_notebook:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true 
     runs-on: ubuntu-latest
     steps:
 
@@ -24,15 +28,18 @@ jobs:
       - name: List files
         run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
+            
             echo "File: ${changed_file}."
+
+            echo ${{ github.event.pull_request.number }}
             if [[ "${changed_file}" == *".ipynb"* ]]; then
 
-              echo ".IPYNB File detected"
+              echo ".ipynb file found"
               echo "The template is now available on the master branch on this link: 
               https://github.com/${{ github.event.pull_request.head.repo.full_name }}/blob/master/${changed_file}
               " > output/comment.md
             else
-              echo "not there"
+              echo "Not an .ipynb file."
             fi
           done
         
