@@ -3,17 +3,12 @@ on:
   pull_request:
     types:
       - closed
-      - opened
-      - reopened
-  issues:
-    types: 
-      - closed
     branches:
       - master
 
 jobs:
-  check_for_notebook:
-    # if: github.event.pull_request.merged == true 
+  Add template link:
+    if: github.event.pull_request.merged == true 
     runs-on: ubuntu-latest
     steps:
 
