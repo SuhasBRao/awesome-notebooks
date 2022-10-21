@@ -25,13 +25,12 @@ jobs:
         id: files
         uses: jitterbit/get-changed-files@v1
         continue-on-error: true
-      - name: List files
+
+      - name: Check .ipynb file existence
         run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
+          for changed_file in ${{ steps.files.outputs.added_modified }}; do
             
             echo "File: ${changed_file}."
-
-            echo ${{ github.event.pull_request.number }}
             if [[ "${changed_file}" == *".ipynb"* ]]; then
 
               echo ".ipynb file found"
@@ -43,17 +42,27 @@ jobs:
             fi
           done
         
-      - uses: actions/upload-artifact@v1
+      - name: Check comment.md existence
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "output/comment.md"
+
+      - name: Upload comment.md as artifact
+        if: steps.check_files.outputs.files_exists == 'true'
+        uses: actions/upload-artifact@v1
         with:
           name: results
           path: output
 
-      - uses: actions/download-artifact@v1
+      - name: Download comment.md as artifact
+        if: steps.check_files.outputs.files_exists == 'true'
+        uses: actions/download-artifact@v1
         with:
           name: results
-      
 
       - name: comment PR
+        if: steps.check_files.outputs.files_exists == 'true'
         uses: machine-learning-apps/pr-comment@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
