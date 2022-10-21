@@ -3,14 +3,12 @@ on:
   pull_request:
     types:
       - closed
-      - opened
-      - reopened
     branches:
       - master
 
 jobs:
   generate_certificate:
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     
     steps:
