@@ -50,8 +50,9 @@ jobs:
             fileNameStr="\n"
             readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
             for modifiedFile in ${changed_files[@]}; do
-              fileNameStr+= ${modifiedFile}\n
+              echo "fileNameStr+= ${modifiedFile}\n"
             done
+            echo "$fileNameStr"
             echo "::set-env name=FileNameString::$fileNameStr"
             
       - name: Get required variables And run script
