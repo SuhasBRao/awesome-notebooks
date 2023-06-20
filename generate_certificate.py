@@ -160,5 +160,4 @@ if __name__ == "__main__":
     
     print(f"Created Certificate with name {contributor_name}.png")
 
-
 # } Driver Code ends
