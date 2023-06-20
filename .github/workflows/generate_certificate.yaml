@@ -37,9 +37,9 @@ jobs:
 
       - name: Get the modfied file names
         id: files
-        with:
-          format:'json'
         uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
         continue-on-error: true
       
       - name: Create a fileName string
