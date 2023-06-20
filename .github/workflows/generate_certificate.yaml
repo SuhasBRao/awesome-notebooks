@@ -3,7 +3,6 @@ on:
   pull_request:
     types:
       - closed
-      - created
     branches:
       - master
 
@@ -50,7 +49,7 @@ jobs:
             readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
             for modifiedFile in ${changed_files[@]}; do
               echo $modifiedFile
-              fileNameStr+= "${modifiedFile}\n"
+              fileNameStr += "${modifiedFile} \n"
               echo $fileNameStr
             done
             echo "${fileNameStr}"
