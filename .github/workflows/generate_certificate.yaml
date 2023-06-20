@@ -50,10 +50,10 @@ jobs:
             fileNameStr="\n"
             readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
             for modifiedFile in ${changed_files[@]}; do
-              echo "fileNameStr+= ${modifiedFile}\n"
+              fileNameStr+= "${modifiedFile}\n"
             done
-            echo "$fileNameStr"
-            echo "::set-env name=FileNameString::$fileNameStr"
+            echo "fileNameString=$fileNameStr" >> "$GITHUB_ENV"
+            echo "${{ env.fileNameString }}"
             
       - name: Get required variables And run script
         env: 
@@ -66,7 +66,7 @@ jobs:
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{ fromJson(steps.webhook.outputs.output).data.avatar_url }}
           org_bio: ${{ fromJson(steps.webhook.outputs.output).data.bio }}
-          changed_files: ${{ steps.fileNames.outputs.fileNameString }}
+          changed_files: ${{ env.fileNameString }}
           
         run: |
             pip install bs4
