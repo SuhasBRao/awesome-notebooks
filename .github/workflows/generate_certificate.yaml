@@ -37,20 +37,22 @@ jobs:
 
       - name: Get the modfied file names
         id: files
-        outputs:
-          fileNameString: ${{ steps.files.outputs.fileNames}}
         with:
           format:'json'
         uses: jitterbit/get-changed-files@v1
+        continue-on-error: true
+      
+      - name: Create a fileName string
+        id: fileNames
+        outputs:
+          fileNameString: ${{ steps.fileNames.outputs.fileNameString}}
         run: |
-            fileNames="\n"
+            fileNameStr="\n"
             readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
             for modifiedFile in ${changed_files[@]}; do
-              echo "fileNames+= ${modifiedFile}\n"
+              echo "fileNameStr+= ${modifiedFile}\n"
             done
-            echo "::set-output name=fileNameString::$fileNames"
-
-        continue-on-error: true
+            echo "::set-output name=fileNameString::$fileNameStr"
       
       - name: Get required variables And run script
         env: 
