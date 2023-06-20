@@ -10,6 +10,8 @@ jobs:
   generate_certificate:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      fileNameSting: ${{ steps.fileNames.outputs.fileNameString }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -44,8 +46,6 @@ jobs:
       
       - name: Create a fileName string
         id: fileNames
-        outputs:
-          fileNameString: ${{ steps.fileNames.outputs.fileNameString}}
         run: |
             fileNameStr="\n"
             readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
@@ -65,7 +65,7 @@ jobs:
           date: ${{ github.event.pull_request.created_at }}
           logo_url: ${{ fromJson(steps.webhook.outputs.output).data.avatar_url }}
           org_bio: ${{ fromJson(steps.webhook.outputs.output).data.bio }}
-          changed_files: ${{ steps.files.outputs.fileNameString }}
+          changed_files: ${{ steps.fileNames.outputs.fileNameString }}
           
         run: |
             pip install bs4
