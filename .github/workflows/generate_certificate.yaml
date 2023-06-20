@@ -2,6 +2,7 @@ name: Generate Certificate
 on:
   pull_request:
     types:
+      - opened
       - closed
     branches:
       - master
